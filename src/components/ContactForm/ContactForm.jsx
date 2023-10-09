@@ -1,40 +1,35 @@
-import { useState } from 'react';
-// import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'Redux/contactSlice';
+import { addContact } from 'Redux/operations';
+import { selectContacts } from 'Redux/selectors';
 
 export const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  const contacts = useSelector(state => state.contacts.list);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const handleAddContact = (name, number) => {
+  const handleAddContact = (name, phone) => {
     const isExist = contacts.find(contact => contact.name === name);
 
     if (isExist) {
       alert(`${name} is already in contacts!`);
-
       return;
     }
 
-    dispatch(addContact(name, number));
-  };
-
-  const handleChange = evt => {
-    if (evt.currentTarget.name === 'name') {
-      setName(evt.currentTarget.value);
-    } else {
-      setNumber(evt.currentTarget.value);
-    }
+    const contact = {
+      id: nanoid(),
+      name,
+      phone,
+    };
+    dispatch(addContact(contact));
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    handleAddContact(name, number);
+    const name = evt.currentTarget.name.value;
+    const phone = evt.currentTarget.phone.value;
+    handleAddContact(name, phone);
     evt.currentTarget.reset();
   };
 
@@ -43,7 +38,6 @@ export const ContactForm = () => {
       <label>
         Name
         <input
-          onChange={handleChange}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -55,9 +49,8 @@ export const ContactForm = () => {
       <label>
         Number
         <input
-          onChange={handleChange}
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

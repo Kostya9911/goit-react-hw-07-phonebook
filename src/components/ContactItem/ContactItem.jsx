@@ -5,11 +5,12 @@ export const ContactItem = ({ onDelete, name, number }) => {
   return (
     <div className={css.item}>
       <p>{name}:</p>
-      <p>{number}</p>
-
-      <button className={css.delete} type="button" onClick={onDelete}>
-        Delete
-      </button>
+      <div className={css.equal}>
+        <p>{number}</p>
+        <button className={css.delete} type="button" onClick={onDelete}>
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

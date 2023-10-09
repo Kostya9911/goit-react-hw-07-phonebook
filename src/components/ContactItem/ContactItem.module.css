@@ -3,12 +3,19 @@
   justify-content: space-between;
   align-items: center;
 }
-.item p {
-  margin: 0;
+
+/* .item p :not(:last-child) {
+  margin: 10px 20px;
+} */
+.equal {
+  display: flex;
+  align-items: center;
 }
-.item p:not(:last-child) {
-  margin: 10px 0;
+
+.equal p {
+  margin-right: 20px;
 }
+
 .delete {
   cursor: pointer;
 
@@ -22,5 +29,3 @@
 .delete:hover {
   background-color: lightcoral;
 }
-
-
